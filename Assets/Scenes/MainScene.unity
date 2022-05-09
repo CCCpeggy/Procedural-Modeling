@@ -1037,6 +1037,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 08efe4c2f2f585042a1a2ee6ce94f2a3, type: 3}
   m_PrefabInstance: {fileID: 805202258}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &875196953 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a1fb87671577a144b8a7472a7bd68053, type: 3}
+  m_PrefabInstance: {fileID: 270124053}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &940066584
 GameObject:
   m_ObjectHideFlags: 0
@@ -1936,53 +1941,53 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ClippedRoof:
     name: Clipped Roof
-    button: {fileID: 1216393505}
-    model: {fileID: 1597325529}
+    buttonPrototype: {fileID: 1216393505}
+    modelPrototype: {fileID: 1597325529}
     index: 0
   EavesRoof:
     name: Eaves Roof
-    button: {fileID: 1626045980}
-    model: {fileID: 318503222}
+    buttonPrototype: {fileID: 1626045980}
+    modelPrototype: {fileID: 318503222}
     index: 1
   FlowerBoard:
     name: Flower Board
-    button: {fileID: 770265536}
-    model: {fileID: 1590236375}
+    buttonPrototype: {fileID: 770265536}
+    modelPrototype: {fileID: 1590236375}
     index: 2
   Lintel:
     name: Lintel
-    button: {fileID: 2132658630}
-    model: {fileID: 228609171}
+    buttonPrototype: {fileID: 2132658630}
+    modelPrototype: {fileID: 228609171}
     index: 3
   MiddleToukung:
     name: Middle Toukung
-    button: {fileID: 83297611}
-    model: {fileID: 2069201853}
+    buttonPrototype: {fileID: 83297611}
+    modelPrototype: {fileID: 875196953}
     index: 4
   PillarBase:
     name: Pillar Base
-    button: {fileID: 1595817557}
-    model: {fileID: 2069201853}
+    buttonPrototype: {fileID: 2024891763}
+    modelPrototype: {fileID: 2069201853}
     index: 5
   Pillar:
     name: Pillar
-    button: {fileID: 0}
-    model: {fileID: 448951718}
+    buttonPrototype: {fileID: 1595817557}
+    modelPrototype: {fileID: 448951718}
     index: 6
   Queti:
     name: Queti
-    button: {fileID: 442731133}
-    model: {fileID: 1414065803}
+    buttonPrototype: {fileID: 442731133}
+    modelPrototype: {fileID: 1414065803}
     index: 7
   SideToukung:
     name: Side Toukung
-    button: {fileID: 1603008384}
-    model: {fileID: 29467434}
+    buttonPrototype: {fileID: 1603008384}
+    modelPrototype: {fileID: 29467434}
     index: 8
   Yundan:
     name: Yundan
-    button: {fileID: 1079457638}
-    model: {fileID: 195302816}
+    buttonPrototype: {fileID: 1079457638}
+    modelPrototype: {fileID: 195302816}
     index: 9
 --- !u!1 &1350141963
 GameObject:
