@@ -114,7 +114,8 @@ public class PailouPanel : MonoBehaviour
     private void ClickSubPailouPartEvent(int subPailouPartIdx, int x, int y, int addX, int addY) {
         DeleteAllChild(subPanel);
         subPanel.SetActive(false);
-        AddNextPailouPart(x, y, subPailouPartIdx, addX, addY);
+        // AddNextPailouPart(x, y, subPailouPartIdx, addX, addY);
+        AddNextPailouPart(x, y, subPailouPartIdx);
     }
 
     private void DeleteAllChild(GameObject gameObject) {

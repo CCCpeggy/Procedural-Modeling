@@ -96,7 +96,8 @@ public class Pailou : MonoBehaviour {
     }
     
     public PailouPartPrototype[] GetRelation(int index, int forward) {
-        return PartRelation[index].Select((x, i) => (x, i)).Where(x => (x.x >> (forward - 1)) % 2 == 1).Select(x => GetPailouPartByIdx(x.i)).ToArray();
+        return PartRelation[index].Select((x, i) => (x, i)).Where(x => x.x > 0).Select(x => GetPailouPartByIdx(x.i)).ToArray();
+        // return PartRelation[index].Select((x, i) => (x, i)).Where(x => (x.x >> (forward - 1)) % 2 == 1).Select(x => GetPailouPartByIdx(x.i)).ToArray();
     }
 
     void Start() {
