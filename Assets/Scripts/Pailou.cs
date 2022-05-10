@@ -16,10 +16,17 @@ public struct PailouPartPrototype {
         this.buttonPrototype = null;
         this.modelPrototype = null;
     }
+
+    public GameObject Instantiate(Transform transform = null) {
+        GameObject obj = GameObject.Instantiate(modelPrototype);
+        obj.transform.parent = transform;
+        obj.transform.localPosition = new Vector3(0, 0, 0);
+        return obj;
+    }
 }
 
 public class Pailou : MonoBehaviour {
-
+    public static Pailou instance = null;
     public class PartName {
         public const string ClippedRoof = "Clipped Roof";
         public const string EavesRoof = "Eaves Roof";
@@ -43,32 +50,23 @@ public class Pailou : MonoBehaviour {
     public PailouPartPrototype Queti = new PailouPartPrototype(PartName.Queti, 7);
     public PailouPartPrototype SideToukung = new PailouPartPrototype(PartName.SideToukung, 8);
     public PailouPartPrototype Yundan = new PailouPartPrototype(PartName.Yundan, 9);
+
+    static private int B2D(int num) {
+        return System.Convert.ToInt32(num.ToString(), 2);
+    }
     
-    public bool[][] PartRelation = new bool[][] {
-        new bool[] {false, true, false, false, false, false, false, false, false, false},
-        new bool[] {false, false, false, false, false, false, false, false, false, false},
-        new bool[] {false, false, false, false, false, false, false, false, false, false},
-        new bool[] {true, false, true, false, true, false, true, true, false, false},
-        new bool[] {false, false, false, false, false, false, false, false, true, false},
-        new bool[] {false, false, false, false, false, false, false, false, false, false},
-        new bool[] {false, false, false, true, false, true, false, false, false, false},
-        new bool[] {false, false, false, false, false, false, false, false, false, true},
-        new bool[] {false, false, false, false, false, false, false, false, false, false},
-        new bool[] {false, false, false, false, false, false, false, false, false, false},
+    public int[][] PartRelation = new int[][] {
+        new int[] {B2D(00000), B2D(00010), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000)},
+        new int[] {B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000)},
+        new int[] {B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000)},
+        new int[] {B2D(00001), B2D(00000), B2D(00110), B2D(00000), B2D(00001), B2D(00000), B2D(00101), B2D(10000), B2D(00000), B2D(00000)},
+        new int[] {B2D(00001), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00100), B2D(00000)},
+        new int[] {B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000)},
+        new int[] {B2D(00000), B2D(00000), B2D(00000), B2D(00001), B2D(00000), B2D(10000), B2D(00000), B2D(00000), B2D(00000), B2D(00000)},
+        new int[] {B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(10000)},
+        new int[] {B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000)},
+        new int[] {B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000), B2D(00000)},
     };
-    
-    // public int[,] PartRelation = {
-    //     {0, 1, 0, 0, 0, 0, 0, 0, 0, 0},
-    //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    //     {1, 0, 1, 0, 1, 0, 1, 1, 0, 0},
-    //     {0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
-    //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    //     {0, 0, 0, 1, 0, 1, 0, 0, 0, 0},
-    //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-    //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    // };
 
     public PailouPartPrototype GetPailouPartByIdx(int idx) {
         switch(idx) {
@@ -97,10 +95,11 @@ public class Pailou : MonoBehaviour {
         return new PailouPartPrototype("", -1);
     }
     
-    public PailouPartPrototype[] GetRelation(int index) {
-        return PartRelation[index].Select((x, i) => (x, i)).Where(x => x.x).Select(x => GetPailouPartByIdx(x.i)).ToArray();
+    public PailouPartPrototype[] GetRelation(int index, int forward) {
+        return PartRelation[index].Select((x, i) => (x, i)).Where(x => (x.x >> (forward - 1)) % 2 == 1).Select(x => GetPailouPartByIdx(x.i)).ToArray();
     }
 
     void Start() {
+        instance = this;
     }
 }
