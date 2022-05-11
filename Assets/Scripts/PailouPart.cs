@@ -13,6 +13,7 @@ public class PailouPart : MonoBehaviour
     public float scaleX, scaleY;
     public int type; // 0: default, 1: 第二樑往左，第二柱往上
     public bool isSide;
+    public float tmpFloat; // 暫存資料用
     public PailouPart parentPailouPart;
     public List<PailouPart> subPailouParts = new List<PailouPart>();
 
@@ -28,8 +29,8 @@ public class PailouPart : MonoBehaviour
     const float quetiHeight = 0.483f;
     const float yundanWidth = 0.454f;
     const float toukingHeight = 0.577f;
-    const float toukingWidth = 1.158f + 0.427f;
-    const float sideToukingWidth = 1.158f + 0.427f;
+    const float toukingWidth = 0.357002f + 0.3614f;
+    const float sideToukingWidth = -0.3749971f + 1.757f;
     public void SetUp(int x, int y, PailouPartPrototype pailouPartPrototype) {
         this.x = x;
         this.y = y;
@@ -81,6 +82,20 @@ public class PailouPart : MonoBehaviour
                     model.transform.localPosition = parentPailouPart.model.transform.localPosition + new Vector3(-pillarWidth * 0.5f, 0, 0);
                 break;
             case Pailou.PartName.MiddleToukung:
+                {
+                    int sideToukungCount = isSide ? 2 : 1;
+                    float distance = lintelWidth - toukingWidth * sideToukungCount;
+                    int amount = System.Convert.ToInt16(distance / toukingWidth);
+                    float keepSideToukungWidth = (lintelWidth - toukingWidth * amount) / sideToukungCount;
+                    tmpFloat = keepSideToukungWidth;
+                    Vector3 step = new Vector3(-toukingWidth, 0, 0);
+                    Vector3 nowPos = new Vector3(isSide ? -keepSideToukungWidth : 0, 0, 0);
+                    for (int i = 0; i < amount; i++, nowPos += step) {
+                        GameObject toukung = Pailou.instance.MiddleToukung.Instantiate(transform);
+                        toukung.transform.localPosition = nowPos;
+                    }
+                    model.transform.localPosition = parentPailouPart.model.transform.localPosition + new Vector3(0, lintelHeight + toukingHeight, 0);
+                }
                 break;
             case Pailou.PartName.PillarBase:
                 GameObject pillarBase = Pailou.instance.PillarBase.Instantiate(transform);
@@ -115,6 +130,16 @@ public class PailouPart : MonoBehaviour
                     break;
                 }
             case Pailou.PartName.SideToukung:
+                {
+                    GameObject sideToukung = Pailou.instance.SideToukung.Instantiate(transform);
+                    sideToukung.transform.localPosition = new Vector3(-lintelWidth + parentPailouPart.tmpFloat, 0, 0);
+                    if (isSide) {
+                        sideToukung = Pailou.instance.SideToukung.Instantiate(transform);
+                        sideToukung.transform.localPosition = new Vector3(-parentPailouPart.tmpFloat, 0, 0);
+                        sideToukung.transform.rotation = Quaternion.Euler(0, 180, 0);
+                    }
+                    model.transform.localPosition = parentPailouPart.model.transform.localPosition;
+                }
                 break;
             case Pailou.PartName.Yundan:
                 {
