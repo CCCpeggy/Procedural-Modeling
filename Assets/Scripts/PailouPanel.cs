@@ -63,6 +63,15 @@ public class PailouPanel : MonoBehaviour
             line.SetPosition(1, GetButtonPosition(subPailouPart.x, subPailouPart.y));
 
             pailouLayout[x, y].Connect(subPailouPart);
+            
+            // 計算同父當中自己出現幾次 (會因為出現次數的不同，長的方向也不同)
+            subPailouPart.type = subPailouPart.parentPailouPart.subPailouParts
+                .Where(x => x && x.prototype.index == pailouPartIdx).Count() - 1 - subPailouPart.parentPailouPart.type;
+            // 判斷是在中間還是旁邊的
+            if (subPailouPart.prototype.name == Pailou.PartName.Lintel && subPailouPart.type == 1)
+                subPailouPart.isCenter = false;
+            else
+                subPailouPart.isCenter = subPailouPart.parentPailouPart.isCenter;
             subPailouPart.SetPosition();
         }
         // else Debug.LogError("沒有空間放了");
@@ -95,7 +104,11 @@ public class PailouPanel : MonoBehaviour
         // 新增可增加的 Button 到 SubPanel
         DeleteAllChild(subPanel);
         subPanel.SetActive(false);
-        var alreadyConnectedPrototype = pailouPart.subPailouParts.Select(x => x.prototype);
+        var alreadyConnectedPrototype = pailouPart.subPailouParts.Select(x => x.prototype).ToList();
+        if (alreadyConnectedPrototype.Where(x => x.name == pailou.Lintel.name).Count() == 1)
+            alreadyConnectedPrototype.Remove(pailou.Lintel);
+        if (alreadyConnectedPrototype.Where(x => x.name == pailou.Pillar.name).Count() == 1 && pailouPart.type == 1)
+            alreadyConnectedPrototype.Remove(pailou.Pillar);
         var enableConnectPrototype = pailou.GetRelation(pailouPart.prototype.index, 3).Except(alreadyConnectedPrototype);
         if (enableConnectPrototype.Count() > 0) {
             subPanel.SetActive(true);
