@@ -8,13 +8,14 @@ public class PailouPanel : MonoBehaviour
 {
     PailouPart[, ] pailouLayout = new PailouPart[100, 100];
     public GameObject subPanel = null;
+    public SettingsPanel settingsPanel = null;
     public Pailou pailou = null;
     public GameObject modelGroup;
     void Start()
     {
         if (pailou == null) Debug.LogError("pailou 沒有指定資料");
         AddPailouPart(0, 2, pailou.Pillar.index).SetPosition();
-        AddNextPailouPart(0, 2, pailou.Lintel.index);
+        // AddNextPailouPart(0, 2, pailou.Lintel.index);
     }
 
     public Vector3 GetButtonPosition(int x, int y) {
@@ -104,6 +105,7 @@ public class PailouPanel : MonoBehaviour
         // 新增可增加的 Button 到 SubPanel
         DeleteAllChild(subPanel);
         subPanel.SetActive(false);
+        settingsPanel.gameObject.SetActive(false);
         var alreadyConnectedPrototype = pailouPart.subPailouParts.Select(x => x.prototype).ToList();
         if (alreadyConnectedPrototype.Where(x => x.name == pailou.Lintel.name).Count() == 1)
             alreadyConnectedPrototype.Remove(pailou.Lintel);
@@ -128,7 +130,46 @@ public class PailouPanel : MonoBehaviour
         DeleteAllChild(subPanel);
         subPanel.SetActive(false);
         // AddNextPailouPart(x, y, subPailouPartIdx, addX, addY);
-        AddNextPailouPart(x, y, subPailouPartIdx);
+        var pailouPart = AddNextPailouPart(x, y, subPailouPartIdx);
+
+        // 產生 Settings Panel
+        int[] needSettingsPanel = {pailou.Lintel.index, pailou.Pillar.index};
+        if (subPailouPartIdx == pailou.Lintel.index && pailouPart.type == 1) {
+            settingsPanel.gameObject.SetActive(true);
+            settingsPanel.scaleXSlider.onValueChanged.RemoveAllListeners();
+            settingsPanel.scaleYSlider.onValueChanged.RemoveAllListeners();
+            settingsPanel.transform.position = pailouPart.button.transform.position;
+
+            settingsPanel.scaleXSlider.value = 1;
+            settingsPanel.scaleXSlider.onValueChanged.AddListener(delegate {ChangeLintelScaleX(pailouPart);});
+
+            settingsPanel.scaleYSlider.value = 1;
+            settingsPanel.scaleYSlider.onValueChanged.AddListener(delegate {ChangePillarScaleY(pailouPart);});
+        }
+        if (subPailouPartIdx == pailou.Pillar.index && pailouPart.type == 0) {
+            settingsPanel.gameObject.SetActive(true);
+            settingsPanel.scaleXSlider.onValueChanged.RemoveAllListeners();
+            settingsPanel.scaleYSlider.onValueChanged.RemoveAllListeners();
+            settingsPanel.transform.position = pailouPart.button.transform.position;
+    
+            settingsPanel.scaleXSlider.value = 1;
+            settingsPanel.scaleXSlider.onValueChanged.AddListener(delegate {ChangeLintelScaleX(pailouPart);});
+
+            settingsPanel.scaleYSlider.value = 1;
+            settingsPanel.scaleYSlider.onValueChanged.AddListener(delegate {ChangePillarScaleY(pailouPart);});
+        }
+    }
+
+    // Settings Panel 的監聽函式
+    private void ChangeLintelScaleX(PailouPart pailouPart) {
+        float scale = settingsPanel.scaleXSlider.value;
+        pailouPart.SetScale(scale, -1);
+        pailouPart.SetPosition();
+    }
+    private void ChangePillarScaleY(PailouPart pailouPart) {
+        float scale = settingsPanel.scaleYSlider.value;
+        pailouPart.SetScale(-1, scale);
+        pailouPart.SetPosition();
     }
 
     private void DeleteAllChild(GameObject gameObject) {

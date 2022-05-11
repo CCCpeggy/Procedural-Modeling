@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SettingsPanel : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public Slider scaleXSlider;
+    public Slider scaleYSlider;
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         

@@ -10,11 +10,15 @@ public struct PailouPartPrototype {
     public Button buttonPrototype;
     public GameObject modelPrototype;
     public int index;
-    public PailouPartPrototype(string name, int index = -1) {
+    public float width, height, gap;
+    public PailouPartPrototype(string name, int index = -1, float width=-1, float height=-1, float gap=-1) {
         this.name = name;
         this.index = index;
         this.buttonPrototype = null;
         this.modelPrototype = null;
+        this.width = width;
+        this.height = height;
+        this.gap = gap;
     }
 
     public GameObject Instantiate(Transform transform = null) {
@@ -40,16 +44,16 @@ public class Pailou : MonoBehaviour {
         public const string Yundan = "Yundan";
     }
 
-    public PailouPartPrototype ClippedRoof = new PailouPartPrototype(PartName.ClippedRoof, 0);
-    public PailouPartPrototype EavesRoof = new PailouPartPrototype(PartName.EavesRoof, 1);
-    public PailouPartPrototype FlowerBoard = new PailouPartPrototype(PartName.FlowerBoard, 2);
-    public PailouPartPrototype Lintel = new PailouPartPrototype(PartName.Lintel, 3);
-    public PailouPartPrototype MiddleToukung = new PailouPartPrototype(PartName.MiddleToukung, 4);
+    public PailouPartPrototype ClippedRoof = new PailouPartPrototype(PartName.ClippedRoof, 0, 2.03f, -1, 1.7280001f);
+    public PailouPartPrototype EavesRoof = new PailouPartPrototype(PartName.EavesRoof, 1, 1.1280065f, -1, 0.33840195f);
+    public PailouPartPrototype FlowerBoard = new PailouPartPrototype(PartName.FlowerBoard, 2, 0.878f, 0.894f, 1.317f);
+    public PailouPartPrototype Lintel = new PailouPartPrototype(PartName.Lintel, 3, 6.598f, 0.79f);
+    public PailouPartPrototype MiddleToukung = new PailouPartPrototype(PartName.MiddleToukung, 4, 0.718402f, 0.577f);
     public PailouPartPrototype PillarBase = new PailouPartPrototype(PartName.PillarBase, 5);
-    public PailouPartPrototype Pillar = new PailouPartPrototype(PartName.Pillar, 6);
-    public PailouPartPrototype Queti = new PailouPartPrototype(PartName.Queti, 7);
-    public PailouPartPrototype SideToukung = new PailouPartPrototype(PartName.SideToukung, 8);
-    public PailouPartPrototype Yundan = new PailouPartPrototype(PartName.Yundan, 9);
+    public PailouPartPrototype Pillar = new PailouPartPrototype(PartName.Pillar, 6, 1.326f, 7.743f);
+    public PailouPartPrototype Queti = new PailouPartPrototype(PartName.Queti, 7, 1.9234f, 0.483f);
+    public PailouPartPrototype SideToukung = new PailouPartPrototype(PartName.SideToukung, 8, 1.3820029f);
+    public PailouPartPrototype Yundan = new PailouPartPrototype(PartName.Yundan, 9, 0.454f);
 
     static private int B2D(int num) {
         return System.Convert.ToInt32(num.ToString(), 2);
