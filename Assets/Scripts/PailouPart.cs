@@ -31,6 +31,10 @@ public class PailouPart : MonoBehaviour
     const float toukingHeight = 0.577f;
     const float toukingWidth = 0.357002f + 0.3614f;
     const float sideToukingWidth = -0.3749971f + 1.757f;
+    const float roofWidth = 2.03f;
+    const float roofGap = 0.8909935f + 0.8370066f;
+    const float eavesRoofWidth = 2.019f - 0.8909935f;
+    const float eavesRoofGap = eavesRoofWidth * 0.3f;
     public void SetUp(int x, int y, PailouPartPrototype pailouPartPrototype) {
         this.x = x;
         this.y = y;
@@ -48,8 +52,27 @@ public class PailouPart : MonoBehaviour
     public void SetPosition() {
         switch (prototype.name) {
             case Pailou.PartName.ClippedRoof:
+                {
+                    float distance = lintelWidth - eavesRoofGap;
+                    int amount = System.Convert.ToInt16(distance / roofGap);
+                    float keepEavesRoofWidth = (lintelWidth - roofGap * amount);
+                    tmpFloat = keepEavesRoofWidth;
+                    Vector3 step = new Vector3(-roofGap, 0, 0);
+                    Vector3 nowPos = new Vector3(-roofWidth * 0.5f, 0, 0);
+                    for (int i = 0; i < amount; i++, nowPos += step) {
+                        GameObject clippedRoof = Pailou.instance.ClippedRoof.Instantiate(transform);
+                        clippedRoof.transform.localPosition = nowPos;
+                    }
+                    if (parentPailouPart.prototype.name == Pailou.PartName.Lintel)
+                        model.transform.localPosition = parentPailouPart.model.transform.localPosition + new Vector3(0, lintelHeight, 0);
+                    else
+                        model.transform.localPosition = parentPailouPart.model.transform.localPosition;
+                }
                 break;
             case Pailou.PartName.EavesRoof:
+                GameObject eavesRoof = Pailou.instance.EavesRoof.Instantiate(transform);
+                eavesRoof.transform.localPosition = new Vector3(-lintelWidth + parentPailouPart.tmpFloat, 0, 0);
+                model.transform.localPosition = parentPailouPart.model.transform.localPosition;
                 break;
             case Pailou.PartName.FlowerBoard:
                 {
@@ -83,13 +106,13 @@ public class PailouPart : MonoBehaviour
                 break;
             case Pailou.PartName.MiddleToukung:
                 {
-                    int sideToukungCount = isSide ? 2 : 1;
+                    int sideToukungCount = 1;
                     float distance = lintelWidth - toukingWidth * sideToukungCount;
                     int amount = System.Convert.ToInt16(distance / toukingWidth);
                     float keepSideToukungWidth = (lintelWidth - toukingWidth * amount) / sideToukungCount;
                     tmpFloat = keepSideToukungWidth;
                     Vector3 step = new Vector3(-toukingWidth, 0, 0);
-                    Vector3 nowPos = new Vector3(isSide ? -keepSideToukungWidth : 0, 0, 0);
+                    Vector3 nowPos = new Vector3(0, 0, 0);
                     for (int i = 0; i < amount; i++, nowPos += step) {
                         GameObject toukung = Pailou.instance.MiddleToukung.Instantiate(transform);
                         toukung.transform.localPosition = nowPos;
@@ -133,11 +156,6 @@ public class PailouPart : MonoBehaviour
                 {
                     GameObject sideToukung = Pailou.instance.SideToukung.Instantiate(transform);
                     sideToukung.transform.localPosition = new Vector3(-lintelWidth + parentPailouPart.tmpFloat, 0, 0);
-                    if (isSide) {
-                        sideToukung = Pailou.instance.SideToukung.Instantiate(transform);
-                        sideToukung.transform.localPosition = new Vector3(-parentPailouPart.tmpFloat, 0, 0);
-                        sideToukung.transform.rotation = Quaternion.Euler(0, 180, 0);
-                    }
                     model.transform.localPosition = parentPailouPart.model.transform.localPosition;
                 }
                 break;
