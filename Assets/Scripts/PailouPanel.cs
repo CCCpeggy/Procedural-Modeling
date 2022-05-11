@@ -69,9 +69,9 @@ public class PailouPanel : MonoBehaviour
                 .Where(x => x && x.prototype.index == pailouPartIdx).Count() - 1 - subPailouPart.parentPailouPart.type;
             // 判斷是在中間還是旁邊的
             if (subPailouPart.prototype.name == Pailou.PartName.Lintel && subPailouPart.type == 1)
-                subPailouPart.isCenter = false;
+                subPailouPart.isSide = true;
             else
-                subPailouPart.isCenter = subPailouPart.parentPailouPart.isCenter;
+                subPailouPart.isSide = subPailouPart.parentPailouPart.isSide;
             subPailouPart.SetPosition();
         }
         // else Debug.LogError("沒有空間放了");

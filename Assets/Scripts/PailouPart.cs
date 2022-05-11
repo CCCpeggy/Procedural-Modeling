@@ -12,7 +12,7 @@ public class PailouPart : MonoBehaviour
     public int x, y;
     public float scaleX, scaleY;
     public int type; // 0: default, 1: 第二樑往左，第二柱往上
-    public bool isCenter;
+    public bool isSide;
     public PailouPart parentPailouPart;
     public List<PailouPart> subPailouParts = new List<PailouPart>();
 
@@ -27,6 +27,9 @@ public class PailouPart : MonoBehaviour
     const float quetiWidth = 1.9234f;
     const float quetiHeight = 0.483f;
     const float yundanWidth = 0.454f;
+    const float toukingHeight = 0.577f;
+    const float toukingWidth = 1.158f + 0.427f;
+    const float sideToukingWidth = 1.158f + 0.427f;
     public void SetUp(int x, int y, PailouPartPrototype pailouPartPrototype) {
         this.x = x;
         this.y = y;
@@ -34,7 +37,7 @@ public class PailouPart : MonoBehaviour
         scaleX = 1;
         scaleY = 1;
         this.type = 0;
-        isCenter = false;
+        isSide = false;
     }
     public void Connect(PailouPart pailouPart) {
         subPailouParts.Add(pailouPart);
@@ -48,17 +51,20 @@ public class PailouPart : MonoBehaviour
             case Pailou.PartName.EavesRoof:
                 break;
             case Pailou.PartName.FlowerBoard:
-                Vector3 start = parentPailouPart.model.transform.position;
-                Vector3 end = start + new Vector3(-lintelWidth + pillarWidth * 1.5f, 0, 0);
-                float distance = Mathf.Abs(Vector3.Distance(start, end));
-                int amount = System.Convert.ToInt16((distance - flowerBoardWidth) / flowerBoardGap);
-                Vector3 step = (end - start) / amount;
-                Vector3 nowPos = new Vector3(-flowerBoardWidth-flowerBoardGap/6, lintelHeight, 0);
-                for (int i = 0; i < amount; i++, nowPos += step) {
-                    GameObject flowerBoard = Pailou.instance.FlowerBoard.Instantiate(transform);
-                    flowerBoard.transform.localPosition = nowPos;
-                }
                 {
+                    float startGap = isSide ? 1 : 0.5f;
+                    Debug.Log(isSide);
+                    Vector3 start = parentPailouPart.model.transform.position;
+                    Vector3 end = start + new Vector3(-lintelWidth + pillarWidth * 1.5f, 0, 0);
+                    float distance = Mathf.Abs(Vector3.Distance(start, end));
+                    int amount = System.Convert.ToInt16(distance / flowerBoardGap);
+                    float gap = (distance - flowerBoardWidth * amount) / (amount + startGap); // 中間的縫隙距離
+                    Vector3 step = new Vector3(- gap - flowerBoardWidth, 0, 0);
+                    Vector3 nowPos = new Vector3(-flowerBoardWidth - gap * startGap, lintelHeight, 0);
+                    for (int i = 0; i < amount; i++, nowPos += step) {
+                        GameObject flowerBoard = Pailou.instance.FlowerBoard.Instantiate(transform);
+                        flowerBoard.transform.localPosition = nowPos;
+                    }
                     GameObject lintel = Pailou.instance.Lintel.Instantiate(transform);
                     float scaleX = (lintelWidth - pillarWidth * 1.5f) / lintelWidth;
                     lintel.transform.localScale = new Vector3(scaleX, 1, 1);
@@ -94,7 +100,7 @@ public class PailouPart : MonoBehaviour
                     GameObject queti = Pailou.instance.Queti.Instantiate(transform);
                     
                     // 對稱的
-                    if (!parentPailouPart.isCenter) {
+                    if (!parentPailouPart.isSide) {
                         queti = Pailou.instance.Queti.Instantiate(transform);
                         queti.transform.localPosition = new Vector3(lintelWidth - pillarWidth * 1.5f, 0, 0);
                         queti.transform.rotation = Quaternion.Euler(0, 180, 0);
@@ -115,7 +121,7 @@ public class PailouPart : MonoBehaviour
                     GameObject yundan = Pailou.instance.Yundan.Instantiate(transform);
                     
                     // 對稱的
-                    if (!parentPailouPart.isCenter) {
+                    if (!parentPailouPart.isSide) {
                         yundan = Pailou.instance.Yundan.Instantiate(transform);
                         yundan.transform.localPosition = new Vector3(lintelWidth - pillarWidth * 1.5f, 0, 0);
                         yundan.transform.rotation = Quaternion.Euler(0, 180, 0);
