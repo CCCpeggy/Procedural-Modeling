@@ -83,42 +83,44 @@ public class PailouPart : MonoBehaviour
     public void Connect(PailouPart pailouPart) {
         subPailouParts.Add(pailouPart);
         pailouPart.parentPailouPart = this;
+        pailouPart.ResetScale();
+    }
+    public void ResetScale() {
+        pillarHeightScale = parentPailouPart.pillarHeightScale;
+        pillarWidthScale = parentPailouPart.pillarWidthScale;
+        lintelHeightScale = parentPailouPart.lintelHeightScale;
+        lintelWidthScale = parentPailouPart.lintelWidthScale;
+        flowerBoardWidthScale = parentPailouPart.flowerBoardWidthScale;
+        flowerBoardHeightScale = parentPailouPart.flowerBoardHeightScale;
+        flowerBoardGapScale = parentPailouPart.flowerBoardGapScale;
+        quetiWidthScale = parentPailouPart.quetiWidthScale;
+        quetiHeightScale = parentPailouPart.quetiHeightScale;
+        yundanWidthScale = parentPailouPart.yundanWidthScale;
+        toukingHeightScale = parentPailouPart.toukingHeightScale;
+        toukingWidthScale = parentPailouPart.toukingWidthScale;
+        sideToukingWidthScale = parentPailouPart.sideToukingWidthScale;
+        roofWidthScale = parentPailouPart.roofWidthScale;
+        roofGapScale = parentPailouPart.roofGapScale;
+        eavesRoofWidthScale = parentPailouPart.eavesRoofWidthScale;
+        eavesRoofGapScale = parentPailouPart.eavesRoofGapScale;
 
-        pailouPart.pillarHeightScale = pillarHeightScale;
-        pailouPart.pillarWidthScale = pillarWidthScale;
-        pailouPart.lintelHeightScale = lintelHeightScale;
-        pailouPart.lintelWidthScale = lintelWidthScale;
-        pailouPart.flowerBoardWidthScale = flowerBoardWidthScale;
-        pailouPart.flowerBoardHeightScale = flowerBoardHeightScale;
-        pailouPart.flowerBoardGapScale = flowerBoardGapScale;
-        pailouPart.quetiWidthScale = quetiWidthScale;
-        pailouPart.quetiHeightScale = quetiHeightScale;
-        pailouPart.yundanWidthScale = yundanWidthScale;
-        pailouPart.toukingHeightScale = toukingHeightScale;
-        pailouPart.toukingWidthScale = toukingWidthScale;
-        pailouPart.sideToukingWidthScale = sideToukingWidthScale;
-        pailouPart.roofWidthScale = roofWidthScale;
-        pailouPart.roofGapScale = roofGapScale;
-        pailouPart.eavesRoofWidthScale = eavesRoofWidthScale;
-        pailouPart.eavesRoofGapScale = eavesRoofGapScale;
-
-        pailouPart.pillarHeight = PILLARHEIGHT * pillarHeightScale;
-        pailouPart.pillarWidth = PILLARWIDTH * pillarWidthScale;
-        pailouPart.lintelHeight = LINTELHEIGHT * lintelHeightScale;
-        pailouPart.lintelWidth = LINTELWIDTH * lintelWidthScale;
-        pailouPart.flowerBoardWidth = FLOWERBOARDWIDTH * flowerBoardWidthScale;
-        pailouPart.flowerBoardHeight = FLOWERBOARDHEIGHT * flowerBoardHeightScale;
-        pailouPart.flowerBoardGap = FLOWERBOARDGAP * flowerBoardGapScale;
-        pailouPart.quetiWidth = QUETIWIDTH * quetiWidthScale;
-        pailouPart.quetiHeight = QUETIHEIGHT * quetiHeightScale;
-        pailouPart.yundanWidth = YUNDANWIDTH * yundanWidthScale;
-        pailouPart.toukingHeight = TOUKINGHEIGHT * toukingHeightScale;
-        pailouPart.toukingWidth = TOUKINGWIDTH * toukingWidthScale;
-        pailouPart.sideToukingWidth = SIDETOUKINGWIDTH * sideToukingWidthScale;
-        pailouPart.roofWidth = ROOFWIDTH * roofWidthScale;
-        pailouPart.roofGap = ROOFGAP * roofGapScale;
-        pailouPart.eavesRoofWidth = EAVESROOFWIDTH * eavesRoofWidthScale;
-        pailouPart.eavesRoofGap = EAVESROOFGAP * eavesRoofGapScale;
+        pillarHeight = PILLARHEIGHT * parentPailouPart.pillarHeightScale;
+        pillarWidth = PILLARWIDTH * parentPailouPart.pillarWidthScale;
+        lintelHeight = LINTELHEIGHT * parentPailouPart.lintelHeightScale;
+        lintelWidth = LINTELWIDTH * parentPailouPart.lintelWidthScale;
+        flowerBoardWidth = FLOWERBOARDWIDTH * parentPailouPart.flowerBoardWidthScale;
+        flowerBoardHeight = FLOWERBOARDHEIGHT * parentPailouPart.flowerBoardHeightScale;
+        flowerBoardGap = FLOWERBOARDGAP * parentPailouPart.flowerBoardGapScale;
+        quetiWidth = QUETIWIDTH * parentPailouPart.quetiWidthScale;
+        quetiHeight = QUETIHEIGHT * parentPailouPart.quetiHeightScale;
+        yundanWidth = YUNDANWIDTH * parentPailouPart.yundanWidthScale;
+        toukingHeight = TOUKINGHEIGHT * parentPailouPart.toukingHeightScale;
+        toukingWidth = TOUKINGWIDTH * parentPailouPart.toukingWidthScale;
+        sideToukingWidth = SIDETOUKINGWIDTH * parentPailouPart.sideToukingWidthScale;
+        roofWidth = ROOFWIDTH * parentPailouPart.roofWidthScale;
+        roofGap = ROOFGAP * parentPailouPart.roofGapScale;
+        eavesRoofWidth = EAVESROOFWIDTH * parentPailouPart.eavesRoofWidthScale;
+        eavesRoofGap = EAVESROOFGAP * parentPailouPart.eavesRoofGapScale;
     }
     public void SetScale(float scaleX=-1, float scaleY=-1) {
         if (scaleX > 0) this.scaleX = scaleX;
@@ -147,7 +149,7 @@ public class PailouPart : MonoBehaviour
                 flowerBoardGap = FLOWERBOARDGAP * flowerBoardGapScale;
                 break;
             case Pailou.PartName.Lintel:
-                lintelWidthScale = parentPailouPart.lintelWidthScale * scaleX * (isSide ? 2 : 1);
+                lintelWidthScale = parentPailouPart.lintelWidthScale * scaleX * (parentPailouPart && !parentPailouPart.isSide && isSide ? 2 : 1);
                 // lintelHeightScale = parentPailouPart.lintelHeightScale * scaleY;
                 pillarHeightScale = parentPailouPart.pillarHeightScale * scaleY;
 
@@ -164,7 +166,7 @@ public class PailouPart : MonoBehaviour
                 break;
             case Pailou.PartName.Pillar:
                 // pillarWidthScale = parentPailouPart.pillarWidthScale * scaleX;
-                lintelWidthScale = parentPailouPart.lintelWidthScale * scaleX * (isSide ? 2 : 1);
+                lintelWidthScale = parentPailouPart.lintelWidthScale * scaleX * (parentPailouPart && !parentPailouPart.isSide && isSide ? 2 : 1);
                 pillarHeightScale = parentPailouPart.pillarHeightScale * scaleY;
 
                 // pillarWidth = PILLARWIDTH * pillarWidthScale;
@@ -199,12 +201,14 @@ public class PailouPart : MonoBehaviour
         switch (prototype.name) {
             case Pailou.PartName.ClippedRoof:
                 {
-                    float distance = lintelWidth - eavesRoofGap;
+                    int roofCount = (isSide && type == 0) ? 2 : 1;
+                    float distance = lintelWidth - eavesRoofGap * roofCount;
                     int amount = System.Convert.ToInt16(distance / roofGap);
-                    float keepEavesRoofWidth = (lintelWidth - roofGap * amount);
+                    float keepEavesRoofWidth = (lintelWidth - roofGap * amount) / roofCount;
                     tmpFloat = keepEavesRoofWidth;
                     Vector3 step = new Vector3(-roofGap, 0, 0);
                     Vector3 nowPos = new Vector3(-roofWidth * 0.5f, 0, 0);
+                    if (isSide && type == 0) nowPos -= new Vector3(keepEavesRoofWidth, 0, 0);
                     for (int i = 0; i < amount; i++, nowPos += step) {
                         GameObject clippedRoof = Pailou.instance.ClippedRoof.Instantiate(transform);
                         clippedRoof.transform.localPosition = nowPos;
@@ -218,27 +222,34 @@ public class PailouPart : MonoBehaviour
             case Pailou.PartName.EavesRoof:
                 GameObject eavesRoof = Pailou.instance.EavesRoof.Instantiate(transform);
                 eavesRoof.transform.localPosition = new Vector3(-lintelWidth + parentPailouPart.tmpFloat, 0, 0);
+                
+                if (isSide && type == 0) {
+                    eavesRoof = Pailou.instance.EavesRoof.Instantiate(transform);
+                    eavesRoof.transform.localPosition = new Vector3(-parentPailouPart.tmpFloat, 0, 0);
+                    eavesRoof.transform.rotation = Quaternion.Euler(0, 180, 0);
+                }
                 model.transform.localPosition = parentPailouPart.model.transform.localPosition;
                 break;
             case Pailou.PartName.FlowerBoard:
                 {
                     float startGap = isSide ? 1 : 0.5f;
-                    Vector3 start = parentPailouPart.model.transform.position;
-                    Vector3 end = start + new Vector3(-lintelWidth + pillarWidth * 1.5f, 0, 0);
-                    float distance = Mathf.Abs(Vector3.Distance(start, end));
+                    float distance = lintelWidth - pillarWidth *  (type == 0 && isSide ? 3 : 1.5f);
                     int amount = System.Convert.ToInt16(distance / flowerBoardGap);
                     float gap = (distance - flowerBoardWidth * amount) / (amount + startGap); // 中間的縫隙距離
-                    Vector3 step = new Vector3(- gap - flowerBoardWidth, 0, 0);
+                    Vector3 step = new Vector3(-gap - flowerBoardWidth, 0, 0);
                     Vector3 nowPos = new Vector3(-flowerBoardWidth - gap * startGap, lintelHeight, 0);
                     for (int i = 0; i < amount; i++, nowPos += step) {
                         GameObject flowerBoard = Pailou.instance.FlowerBoard.Instantiate(transform);
                         flowerBoard.transform.localPosition = nowPos;
                     }
                     GameObject lintel = Pailou.instance.Lintel.Instantiate(transform);
-                    float _scaleX = (lintelWidth - pillarWidth * 1.5f) / lintelWidth;
+                    float _scaleX = distance / lintelWidth;
                     lintel.transform.localScale = new Vector3(lintelWidthScale * _scaleX, lintelHeightScale, 1);
                 }
-                model.transform.localPosition = parentPailouPart.model.transform.localPosition + new Vector3(0, -flowerBoardHeight-lintelHeight, 0);
+                if (type == 0 && isSide) 
+                    model.transform.localPosition = parentPailouPart.model.transform.localPosition + new Vector3(-pillarWidth * 1.5f, -flowerBoardHeight-lintelHeight, 0);
+                else
+                    model.transform.localPosition = parentPailouPart.model.transform.localPosition + new Vector3(0, -flowerBoardHeight-lintelHeight, 0);
                 break;
             case Pailou.PartName.Lintel:
                 {
@@ -254,13 +265,13 @@ public class PailouPart : MonoBehaviour
                 break;
             case Pailou.PartName.MiddleToukung:
                 {
-                    int sideToukungCount = 1;
+                    int sideToukungCount = (isSide && type == 0) ? 2 : 1;
                     float distance = lintelWidth - toukingWidth * sideToukungCount;
                     int amount = System.Convert.ToInt16(distance / toukingWidth);
                     float keepSideToukungWidth = (lintelWidth - toukingWidth * amount) / sideToukungCount;
                     tmpFloat = keepSideToukungWidth;
                     Vector3 step = new Vector3(-toukingWidth, 0, 0);
-                    Vector3 nowPos = new Vector3(0, 0, 0);
+                    Vector3 nowPos = new Vector3(isSide && type == 0 ? -keepSideToukungWidth : 0, 0, 0);
                     for (int i = 0; i < amount; i++, nowPos += step) {
                         GameObject toukung = Pailou.instance.MiddleToukung.Instantiate(transform);
                         toukung.transform.localPosition = nowPos;
@@ -283,8 +294,13 @@ public class PailouPart : MonoBehaviour
                     pillar = Pailou.instance.Pillar.Instantiate(transform);
                     pillar.transform.localScale = new Vector3(pillarWidthScale, pillarHeightScale, 1);
                     pillar.transform.localPosition = new Vector3(lintelWidth - pillarWidth * 2, 0, 0);
+                    
+                    model.transform.localPosition = parentPailouPart.model.transform.localPosition;
+                    model.transform.localPosition += new Vector3(-parentPailouPart.lintelWidth / 2, pillarHeight + parentPailouPart.lintelHeight, 0);
+                    if (parentPailouPart.type == 1) model.transform.localPosition += new Vector3(parentPailouPart.pillarWidth / 2, 0, 0);
+                    model.transform.localPosition += new Vector3(-lintelWidth / 2 + pillarWidth, 0, 0);
                 }
-                if (type == 0)
+                else if (type == 0)
                     model.transform.localPosition = parentPailouPart.model.transform.localPosition + new Vector3(-lintelWidth + pillarWidth, pillarHeight + lintelHeight, 0);
                 else
                     model.transform.localPosition = parentPailouPart.model.transform.localPosition + new Vector3(-lintelWidth + pillarWidth, 0, 0);
@@ -292,19 +308,22 @@ public class PailouPart : MonoBehaviour
             case Pailou.PartName.Queti:
                 {
                     GameObject queti = Pailou.instance.Queti.Instantiate(transform);
+
                     
                     // 對稱的
                     if (isSide) {
                         queti = Pailou.instance.Queti.Instantiate(transform);
-                        queti.transform.localPosition = new Vector3(lintelWidth - pillarWidth * 1.5f, 0, 0);
+                        queti.transform.localPosition = new Vector3(lintelWidth - pillarWidth * (type == 0 && isSide ? 3 : 1.5f), 0, 0);
                         queti.transform.rotation = Quaternion.Euler(0, 180, 0);
                     }
 
                     PailouPart flowerBoard = parentPailouPart.subPailouParts.FirstOrDefault(x => x.prototype.name == Pailou.PartName.FlowerBoard);
-                    if (flowerBoard)
-                        model.transform.localPosition = flowerBoard.model.transform.localPosition + new Vector3(-lintelWidth + pillarWidth * 1.5f, 0, 0);
-                    else
-                        model.transform.localPosition = parentPailouPart.model.transform.localPosition + new Vector3(-lintelWidth + pillarWidth * 1.5f, 0, 0);
+                    model.transform.localPosition = parentPailouPart.model.transform.localPosition + new Vector3(-lintelWidth + pillarWidth * 1.5f, 0, 0);
+                    if (flowerBoard) {
+                        Vector3 pos = model.transform.localPosition;
+                        pos.y = flowerBoard.model.transform.localPosition.y;
+                        model.transform.localPosition = pos;
+                    }
                     
                     break;
                 }
@@ -312,6 +331,12 @@ public class PailouPart : MonoBehaviour
                 {
                     GameObject sideToukung = Pailou.instance.SideToukung.Instantiate(transform);
                     sideToukung.transform.localPosition = new Vector3(-lintelWidth + parentPailouPart.tmpFloat, 0, 0);
+
+                    if (isSide && type == 0) {
+                        sideToukung = Pailou.instance.SideToukung.Instantiate(transform);
+                        sideToukung.transform.localPosition = new Vector3(-parentPailouPart.tmpFloat, 0, 0);
+                        sideToukung.transform.rotation = Quaternion.Euler(0, 180, 0);
+                    }
                     model.transform.localPosition = parentPailouPart.model.transform.localPosition;
                 }
                 break;
@@ -322,7 +347,7 @@ public class PailouPart : MonoBehaviour
                     // 對稱的
                     if (isSide) {
                         yundan = Pailou.instance.Yundan.Instantiate(transform);
-                        yundan.transform.localPosition = new Vector3(lintelWidth - pillarWidth * 1.5f, 0, 0);
+                        yundan.transform.localPosition = new Vector3(lintelWidth - pillarWidth * (type == 0 && isSide ? 3 : 1.5f), 0, 0);
                         yundan.transform.rotation = Quaternion.Euler(0, 180, 0);
                     }
 

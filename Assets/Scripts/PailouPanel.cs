@@ -15,7 +15,7 @@ public class PailouPanel : MonoBehaviour
     {
         if (pailou == null) Debug.LogError("pailou 沒有指定資料");
         AddPailouPart(0, 2, pailou.Pillar.index).SetPosition();
-        // AddNextPailouPart(0, 2, pailou.Lintel.index);
+        AddNextPailouPart(0, 2, pailou.Lintel.index);
     }
 
     public Vector3 GetButtonPosition(int x, int y) {
@@ -139,37 +139,46 @@ public class PailouPanel : MonoBehaviour
             settingsPanel.scaleXSlider.onValueChanged.RemoveAllListeners();
             settingsPanel.scaleYSlider.onValueChanged.RemoveAllListeners();
             settingsPanel.transform.position = pailouPart.button.transform.position;
+            pailouPart.SetScale(1, 1);
+            pailouPart.SetPosition();
+            
+            var pillarPailouPart = AddNextPailouPart(pailouPart.x, pailouPart.y, Pailou.instance.Pillar.index);
 
             settingsPanel.scaleXSlider.value = 1;
-            settingsPanel.scaleXSlider.onValueChanged.AddListener(delegate {ChangeLintelScaleX(pailouPart);});
+            settingsPanel.scaleXSlider.onValueChanged.AddListener(delegate {ChangeLintelScaleX(pailouPart, pillarPailouPart);});
 
             settingsPanel.scaleYSlider.value = 1;
-            settingsPanel.scaleYSlider.onValueChanged.AddListener(delegate {ChangePillarScaleY(pailouPart);});
+            settingsPanel.scaleYSlider.onValueChanged.AddListener(delegate {ChangePillarScaleY(pailouPart, pillarPailouPart);});
         }
         if (subPailouPartIdx == pailou.Pillar.index && pailouPart.type == 0) {
             settingsPanel.gameObject.SetActive(true);
             settingsPanel.scaleXSlider.onValueChanged.RemoveAllListeners();
             settingsPanel.scaleYSlider.onValueChanged.RemoveAllListeners();
             settingsPanel.transform.position = pailouPart.button.transform.position;
+            var lintelPailouPart = AddNextPailouPart(pailouPart.x, pailouPart.y, Pailou.instance.Lintel.index);
     
             settingsPanel.scaleXSlider.value = 1;
-            settingsPanel.scaleXSlider.onValueChanged.AddListener(delegate {ChangeLintelScaleX(pailouPart);});
+            settingsPanel.scaleXSlider.onValueChanged.AddListener(delegate {ChangeLintelScaleX(pailouPart, lintelPailouPart);});
 
             settingsPanel.scaleYSlider.value = 1;
-            settingsPanel.scaleYSlider.onValueChanged.AddListener(delegate {ChangePillarScaleY(pailouPart);});
+            settingsPanel.scaleYSlider.onValueChanged.AddListener(delegate {ChangePillarScaleY(pailouPart, lintelPailouPart);});
         }
     }
 
     // Settings Panel 的監聽函式
-    private void ChangeLintelScaleX(PailouPart pailouPart) {
+    private void ChangeLintelScaleX(PailouPart pailouPart, PailouPart NextPailouPart) {
         float scale = settingsPanel.scaleXSlider.value;
         pailouPart.SetScale(scale, -1);
+        NextPailouPart.ResetScale();
         pailouPart.SetPosition();
+        NextPailouPart.SetPosition();
     }
-    private void ChangePillarScaleY(PailouPart pailouPart) {
+    private void ChangePillarScaleY(PailouPart pailouPart, PailouPart NextPailouPart) {
         float scale = settingsPanel.scaleYSlider.value;
         pailouPart.SetScale(-1, scale);
+        NextPailouPart.ResetScale();
         pailouPart.SetPosition();
+        NextPailouPart.SetPosition();
     }
 
     private void DeleteAllChild(GameObject gameObject) {
