@@ -138,6 +138,8 @@ public class PailouPanel : MonoBehaviour
         int[] needSettingsPanel = {pailou.Lintel.index, pailou.Pillar.index};
         if (subPailouPartIdx == pailou.Lintel.index && pailouPart.type == 1) {
             settingsPanel.gameObject.SetActive(true);
+            settingsPanel.scaleXSlider.gameObject.SetActive(true);
+            settingsPanel.scaleYSlider.gameObject.SetActive(true);
             settingsPanel.levelSlider.gameObject.SetActive(false);
             settingsPanel.scaleXSlider.onValueChanged.RemoveAllListeners();
             settingsPanel.scaleYSlider.onValueChanged.RemoveAllListeners();
@@ -155,6 +157,8 @@ public class PailouPanel : MonoBehaviour
         }
         if (subPailouPartIdx == pailou.Pillar.index && pailouPart.type == 0) {
             settingsPanel.gameObject.SetActive(true);
+            settingsPanel.scaleXSlider.gameObject.SetActive(true);
+            settingsPanel.scaleYSlider.gameObject.SetActive(true);
             settingsPanel.levelSlider.gameObject.SetActive(false);
             settingsPanel.scaleXSlider.onValueChanged.RemoveAllListeners();
             settingsPanel.scaleYSlider.onValueChanged.RemoveAllListeners();
@@ -175,8 +179,9 @@ public class PailouPanel : MonoBehaviour
             settingsPanel.levelSlider.onValueChanged.RemoveAllListeners();
             settingsPanel.transform.position = pailouPart.button.transform.position;
     
-            settingsPanel.levelSlider.onValueChanged.AddListener(delegate {ChangeToukungLevel(pailouPart);});
             settingsPanel.levelSlider.value = ToukungPanel.level;
+            ChangeToukungLevel(pailouPart);
+            settingsPanel.levelSlider.onValueChanged.AddListener(delegate {ChangeToukungLevel(pailouPart);});
         }
     }
 
@@ -200,10 +205,10 @@ public class PailouPanel : MonoBehaviour
         ToukungPanel.level = System.Convert.ToInt32(settingsPanel.levelSlider.value);
         toukungPanel.buildMiddleToukung();
         toukungPanel.buildSideToukung();
-        pailouPart.toukingHeight = ToukungPanel.height_midde;
+        pailouPart.toukingHeight = toukungPanel.height;
         DeleteAllChild(pailouPart.gameObject);
         pailouPart.SetPosition();
-        pailouPart.SetRoofScale(1 + ToukungPanel.level * 0.1f);
+        pailouPart.SetRoofScale(1 + ToukungPanel.level * 0.2f);
     }
 
     private void DeleteAllChild(GameObject gameObject) {

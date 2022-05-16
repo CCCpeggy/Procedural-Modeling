@@ -124,11 +124,11 @@ public class PailouPart : MonoBehaviour
         eavesRoofGap = EAVESROOFGAP * parentPailouPart.eavesRoofGapScale;
     }
     public void SetRoofScale(float scale) {
-        roofWidthScale = parentPailouPart.roofWidthScale * scale;
+        roofWidthScale = scale;
         roofWidth = ROOFWIDTH * roofWidthScale;
         roofGap = ROOFGAP * roofGapScale;
 
-        eavesRoofWidthScale = parentPailouPart.eavesRoofWidthScale * scale;
+        eavesRoofWidthScale = scale;
         eavesRoofWidth = EAVESROOFWIDTH * eavesRoofWidthScale;
         eavesRoofGap = EAVESROOFGAP * eavesRoofGapScale;
     }
@@ -286,7 +286,8 @@ public class PailouPart : MonoBehaviour
                     float keepSideToukungWidth = (lintelWidth - toukingWidth * amount) / sideToukungCount;
                     tmpFloat = keepSideToukungWidth;
                     Vector3 step = new Vector3(-toukingWidth, 0, 0);
-                    Vector3 nowPos = new Vector3(isSide && type == 0 ? -keepSideToukungWidth : 0, 0, 0);
+                    Debug.Log(keepSideToukungWidth);
+                    Vector3 nowPos = new Vector3((isSide && type == 0) ? -keepSideToukungWidth : 0, 0, 0);
                     for (int i = 0; i < amount; i++, nowPos += step) {
                         GameObject toukung = Pailou.instance.MiddleToukung.Instantiate(transform);
                         toukung.transform.localPosition = nowPos;
@@ -345,12 +346,13 @@ public class PailouPart : MonoBehaviour
             case Pailou.PartName.SideToukung:
                 {
                     GameObject sideToukung = Pailou.instance.SideToukung.Instantiate(transform);
-                    sideToukung.transform.localPosition = new Vector3(-lintelWidth + parentPailouPart.tmpFloat, 0, 0);
+                    sideToukung.transform.localPosition = new Vector3(-lintelWidth + parentPailouPart.tmpFloat+toukingWidth, 0, 0);
+                    sideToukung.transform.rotation = Quaternion.Euler(0, 180, 0);
 
                     if (isSide && type == 0) {
                         sideToukung = Pailou.instance.SideToukung.Instantiate(transform);
                         sideToukung.transform.localPosition = new Vector3(-parentPailouPart.tmpFloat, 0, 0);
-                        sideToukung.transform.rotation = Quaternion.Euler(0, 180, 0);
+                        sideToukung.transform.rotation = Quaternion.Euler(0, 0, 0);
                     }
                     model.transform.localPosition = parentPailouPart.model.transform.localPosition;
                 }

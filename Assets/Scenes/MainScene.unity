@@ -2154,6 +2154,27 @@ MonoBehaviour:
     width: 0
     height: 0
     gap: 0
+  Nose:
+    name: Nose
+    modelPrototype: {fileID: 919132149155446097, guid: 4249b2925fcdad644a9441b9b98db85f, type: 3}
+    index: 9
+    width: 0
+    height: 0
+    gap: 0
+  SupportSidePart:
+    name: Support_side Part
+    modelPrototype: {fileID: 8940534356016148160, guid: 696b1e13ebae3d0459efdad9dc0558ce, type: 3}
+    index: 10
+    width: 0
+    height: 0
+    gap: 0
+  SupportSidePart_left:
+    name: Support_side Part_left
+    modelPrototype: {fileID: 7834583470061655483, guid: 55295163d47a1e448bc9bd82a46a8150, type: 3}
+    index: 11
+    width: 0
+    height: 0
+    gap: 0
 --- !u!4 &919072488
 Transform:
   m_ObjectHideFlags: 0
@@ -5607,6 +5628,7 @@ MonoBehaviour:
   middleToukung: {fileID: 638605252}
   slider: {fileID: 0}
   text: {fileID: 0}
+  height: 0.615
 --- !u!4 &1721846038 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1fcd16c442102e84f8b1bfdc53336c47, type: 3}

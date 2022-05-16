@@ -47,6 +47,8 @@ public class Toukung : MonoBehaviour
         public const string SupportSide = "Support Side";
         public const string RepeatSidePart_left = "Repeat_side Part_left";
         public const string RepeatSidePart = "Repeat_side Part1";
+        public const string SupportSidePart = "Support_side Part";
+        public const string SupportSidePart_left = "Support_side Part_left";
     }
 
     public ToukungPartPrototype CapMiddle = new ToukungPartPrototype(PartName.CapMiddle, 0, 0.276f, 0.264f, 0.240f);
@@ -60,6 +62,10 @@ public class Toukung : MonoBehaviour
     public ToukungPartPrototype Ang = new ToukungPartPrototype(PartName.Ang, 6, 0.0f, 0.0f, 0.0f);
     public ToukungPartPrototype RepeatSidePart_left = new ToukungPartPrototype(PartName.RepeatSidePart_left, 7, 0.0f, 0.0f, 0.0f);
     public ToukungPartPrototype RepeatSidePart = new ToukungPartPrototype(PartName.RepeatSidePart, 8, 0.0f, 0.0f, 0.0f);
+
+    public ToukungPartPrototype Nose = new ToukungPartPrototype(PartName.Nose, 9, 0, 0, 0);
+    public ToukungPartPrototype SupportSidePart = new ToukungPartPrototype(PartName.SupportSidePart, 10, 0, 0, 0);
+    public ToukungPartPrototype SupportSidePart_left = new ToukungPartPrototype(PartName.SupportSidePart_left, 11, 0, 0, 0);
 
     public ToukungPartPrototype GetToukungPartPrototype(int index)
     {
@@ -81,6 +87,14 @@ public class Toukung : MonoBehaviour
                 return Ang;
             case 7:
                 return RepeatSidePart_left;
+            case 8:
+                return RepeatSidePart;
+            case 9:
+                return Nose;
+            case 10:
+                return SupportSidePart;
+            case 11:
+                return SupportSidePart_left;
         }
 
         return new ToukungPartPrototype("", -1);
