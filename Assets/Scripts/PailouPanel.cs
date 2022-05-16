@@ -208,7 +208,7 @@ public class PailouPanel : MonoBehaviour
         pailouPart.toukingHeight = toukungPanel.height;
         DeleteAllChild(pailouPart.gameObject);
         pailouPart.SetPosition();
-        pailouPart.SetRoofScale(1 + ToukungPanel.level * 0.2f);
+        pailouPart.SetRoofScale(1 + ToukungPanel.level * 0.1f);
     }
 
     private void DeleteAllChild(GameObject gameObject) {
