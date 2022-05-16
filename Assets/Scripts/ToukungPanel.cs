@@ -47,6 +47,7 @@ public class ToukungPanel : MonoBehaviour
             GameObject repeat = repeatPartPrototype.Instantiate();
             repeat.transform.parent = middleToukung.transform;
             repeat.transform.localPosition = new Vector3(width, 0.264f + i * 0.157f - height, 0.240f + i * 0.230f);
+            repeat.transform.localRotation = Quaternion.Euler(0, -90f, 0);
             ToukungPart repeatPart = repeat.AddComponent<ToukungPart>();
             repeatPart.model = repeat;
             //repeatPart.SetUp(0, 0, repeatPartPrototype);
@@ -55,7 +56,7 @@ public class ToukungPanel : MonoBehaviour
             GameObject repeat_left = repeatPartPrototype_left.Instantiate();
             repeat_left.transform.parent = middleToukung.transform;
             repeat_left.transform.localPosition = new Vector3(width, 0.264f + i * 0.157f - height, -0.240f - i * 0.230f);
-            repeat_left.transform.localRotation = Quaternion.Euler(0, 0f, 0);
+            repeat_left.transform.localRotation = Quaternion.Euler(0, 90f, 0);
             ToukungPart repeatPart_left = repeat_left.AddComponent<ToukungPart>();
             repeatPart_left.model = repeat_left;
             //repeatPart_left.SetUp(0, 0, repeatPartPrototype_left);
@@ -66,6 +67,7 @@ public class ToukungPanel : MonoBehaviour
         GameObject support = supportPartPrototype.Instantiate();
         support.transform.parent = middleToukung.transform;
         support.transform.localPosition = new Vector3(width, 0.264f + (level - 2) * 0.157f - height, 0.240f + (level - 3) * 0.230f + 0.115f);
+        support.transform.localRotation = Quaternion.Euler(0, -90f, 0);
         ToukungPart supportPart = support.AddComponent<ToukungPart>();
         supportPart.model = support;
         //supportPart.SetUp(0, 0, supportPartPrototype);
@@ -208,6 +210,7 @@ public class ToukungPanel : MonoBehaviour
             GameObject Nose = NosePrototype.Instantiate();
             Nose.transform.parent = sideToukung.transform;
             Nose.transform.localPosition = new Vector3(0.007f + i * 0.233f + width, 0.264f + (level - 2) * 0.157f - height, 0.364f + (level - 3) * 0.22f);
+            Nose.transform.localRotation = Quaternion.Euler(0, -90f, 0);
             ToukungPart NosePart = Nose.AddComponent<ToukungPart>();
             NosePart.model = Nose;
 
@@ -253,7 +256,7 @@ public class ToukungPanel : MonoBehaviour
         GameObject Support_part_left = SupportPartPrototype_part_left.Instantiate();
         Support_part_left.transform.parent = sideToukung.transform;
         Support_part_left.transform.localPosition = new Vector3(0.007f + width, 0.264f + (level - 2) * 0.157f - height, -0.364f - (level - 3) * 0.22f);
-        Support_part_left.transform.localRotation = Quaternion.Euler(0, -90f, 0);
+        Support_part_left.transform.localRotation = Quaternion.Euler(0, 0f, 0);
         ToukungPart SupportPart_part_left = Support_part_left.AddComponent<ToukungPart>();
         SupportPart_part_left.model = Support_part_left;
     }
