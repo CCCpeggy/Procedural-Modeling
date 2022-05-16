@@ -6,6 +6,7 @@ using System.Linq;
 
 public class PailouPanel : MonoBehaviour
 {
+    ToukungPanel toukungPanel;
     PailouPart[, ] pailouLayout = new PailouPart[100, 100];
     public GameObject subPanel = null;
     public SettingsPanel settingsPanel = null;
@@ -16,6 +17,7 @@ public class PailouPanel : MonoBehaviour
         if (pailou == null) Debug.LogError("pailou 沒有指定資料");
         AddPailouPart(0, 2, pailou.Pillar.index).SetPosition();
         AddNextPailouPart(0, 2, pailou.Lintel.index);
+        toukungPanel = GetComponent<ToukungPanel>();
     }
 
     public Vector3 GetButtonPosition(int x, int y) {
@@ -136,6 +138,7 @@ public class PailouPanel : MonoBehaviour
         int[] needSettingsPanel = {pailou.Lintel.index, pailou.Pillar.index};
         if (subPailouPartIdx == pailou.Lintel.index && pailouPart.type == 1) {
             settingsPanel.gameObject.SetActive(true);
+            settingsPanel.levelSlider.gameObject.SetActive(false);
             settingsPanel.scaleXSlider.onValueChanged.RemoveAllListeners();
             settingsPanel.scaleYSlider.onValueChanged.RemoveAllListeners();
             settingsPanel.transform.position = pailouPart.button.transform.position;
@@ -152,6 +155,7 @@ public class PailouPanel : MonoBehaviour
         }
         if (subPailouPartIdx == pailou.Pillar.index && pailouPart.type == 0) {
             settingsPanel.gameObject.SetActive(true);
+            settingsPanel.levelSlider.gameObject.SetActive(false);
             settingsPanel.scaleXSlider.onValueChanged.RemoveAllListeners();
             settingsPanel.scaleYSlider.onValueChanged.RemoveAllListeners();
             settingsPanel.transform.position = pailouPart.button.transform.position;
@@ -162,6 +166,17 @@ public class PailouPanel : MonoBehaviour
 
             settingsPanel.scaleYSlider.value = 1;
             settingsPanel.scaleYSlider.onValueChanged.AddListener(delegate {ChangePillarScaleY(pailouPart, lintelPailouPart);});
+        }
+        if (subPailouPartIdx == pailou.MiddleToukung.index) {
+            settingsPanel.gameObject.SetActive(true);
+            settingsPanel.scaleXSlider.gameObject.SetActive(false);
+            settingsPanel.scaleYSlider.gameObject.SetActive(false);
+            settingsPanel.levelSlider.gameObject.SetActive(true);
+            settingsPanel.levelSlider.onValueChanged.RemoveAllListeners();
+            settingsPanel.transform.position = pailouPart.button.transform.position;
+    
+            settingsPanel.levelSlider.onValueChanged.AddListener(delegate {ChangeToukungLevel(pailouPart);});
+            settingsPanel.levelSlider.value = ToukungPanel.level;
         }
     }
 
@@ -179,6 +194,16 @@ public class PailouPanel : MonoBehaviour
         NextPailouPart.ResetScale();
         pailouPart.SetPosition();
         NextPailouPart.SetPosition();
+    }
+    private void ChangeToukungLevel(PailouPart pailouPart)
+    {
+        ToukungPanel.level = System.Convert.ToInt32(settingsPanel.levelSlider.value);
+        toukungPanel.buildMiddleToukung();
+        toukungPanel.buildSideToukung();
+        pailouPart.toukingHeight = ToukungPanel.height_midde;
+        DeleteAllChild(pailouPart.gameObject);
+        pailouPart.SetPosition();
+        pailouPart.SetRoofScale(1 + ToukungPanel.level * 0.1f);
     }
 
     private void DeleteAllChild(GameObject gameObject) {

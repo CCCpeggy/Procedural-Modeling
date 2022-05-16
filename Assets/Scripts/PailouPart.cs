@@ -33,6 +33,7 @@ public class PailouPart : MonoBehaviour
     const float SIDETOUKINGWIDTH = -0.3749971f + 1.757f;
     const float ROOFWIDTH = 2.03f;
     const float ROOFGAP = 0.8909935f + 0.8370066f;
+    const float ROOFGAP2 = 1.127f - 0.8370066f;
     const float EAVESROOFWIDTH = 2.019f - 0.8909935f;
     const float EAVESROOFGAP = 0.33840195f;
     
@@ -46,7 +47,7 @@ public class PailouPart : MonoBehaviour
     float quetiWidth;
     float quetiHeight;
     float yundanWidth;
-    float toukingHeight;
+    public float toukingHeight;
     float toukingWidth;
     float sideToukingWidth;
     float roofWidth;
@@ -114,13 +115,22 @@ public class PailouPart : MonoBehaviour
         quetiWidth = QUETIWIDTH * parentPailouPart.quetiWidthScale;
         quetiHeight = QUETIHEIGHT * parentPailouPart.quetiHeightScale;
         yundanWidth = YUNDANWIDTH * parentPailouPart.yundanWidthScale;
-        toukingHeight = TOUKINGHEIGHT * parentPailouPart.toukingHeightScale;
+        // toukingHeight = TOUKINGHEIGHT * parentPailouPart.toukingHeightScale;
         toukingWidth = TOUKINGWIDTH * parentPailouPart.toukingWidthScale;
         sideToukingWidth = SIDETOUKINGWIDTH * parentPailouPart.sideToukingWidthScale;
         roofWidth = ROOFWIDTH * parentPailouPart.roofWidthScale;
         roofGap = ROOFGAP * parentPailouPart.roofGapScale;
         eavesRoofWidth = EAVESROOFWIDTH * parentPailouPart.eavesRoofWidthScale;
         eavesRoofGap = EAVESROOFGAP * parentPailouPart.eavesRoofGapScale;
+    }
+    public void SetRoofScale(float scale) {
+        roofWidthScale = parentPailouPart.roofWidthScale * scale;
+        roofWidth = ROOFWIDTH * roofWidthScale;
+        roofGap = ROOFGAP * roofGapScale;
+
+        eavesRoofWidthScale = parentPailouPart.eavesRoofWidthScale * scale;
+        eavesRoofWidth = EAVESROOFWIDTH * eavesRoofWidthScale;
+        eavesRoofGap = EAVESROOFGAP * eavesRoofGapScale;
     }
     public void SetScale(float scaleX=-1, float scaleY=-1) {
         if (scaleX > 0) this.scaleX = scaleX;
@@ -212,11 +222,15 @@ public class PailouPart : MonoBehaviour
                     for (int i = 0; i < amount; i++, nowPos += step) {
                         GameObject clippedRoof = Pailou.instance.ClippedRoof.Instantiate(transform);
                         clippedRoof.transform.localPosition = nowPos;
+                        clippedRoof.transform.localScale = new Vector3(roofWidthScale, roofWidthScale, roofWidthScale);
                     }
                     if (parentPailouPart.prototype.name == Pailou.PartName.Lintel)
                         model.transform.localPosition = parentPailouPart.model.transform.localPosition + new Vector3(0, lintelHeight, 0);
                     else
                         model.transform.localPosition = parentPailouPart.model.transform.localPosition;
+                    if (!isSide) {
+                        model.transform.localPosition += new Vector3(ROOFGAP2 * roofWidthScale, 0);
+                    }
                 }
                 break;
             case Pailou.PartName.EavesRoof:
@@ -227,6 +241,7 @@ public class PailouPart : MonoBehaviour
                     eavesRoof = Pailou.instance.EavesRoof.Instantiate(transform);
                     eavesRoof.transform.localPosition = new Vector3(-parentPailouPart.tmpFloat, 0, 0);
                     eavesRoof.transform.rotation = Quaternion.Euler(0, 180, 0);
+                    eavesRoof.transform.localScale = new Vector3(eavesRoofWidthScale, eavesRoofWidthScale, eavesRoofWidthScale);
                 }
                 model.transform.localPosition = parentPailouPart.model.transform.localPosition;
                 break;

@@ -7,6 +7,7 @@ public class SettingsPanel : MonoBehaviour
 {
     public Slider scaleXSlider;
     public Slider scaleYSlider;
+    public Slider levelSlider;
     void Start()
     {
         

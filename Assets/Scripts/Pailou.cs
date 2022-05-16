@@ -43,7 +43,6 @@ public class Pailou : MonoBehaviour {
         public const string SideToukung = "Side Toukung";
         public const string Yundan = "Yundan";
     }
-
     public PailouPartPrototype ClippedRoof = new PailouPartPrototype(PartName.ClippedRoof, 0, 2.03f, -1, 1.7280001f);
     public PailouPartPrototype EavesRoof = new PailouPartPrototype(PartName.EavesRoof, 1, 1.1280065f, -1, 0.33840195f);
     public PailouPartPrototype FlowerBoard = new PailouPartPrototype(PartName.FlowerBoard, 2, 0.878f, 0.894f, 1.317f);
